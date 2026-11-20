@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="24" height="24" fill="none" stroke="#C3B4A2" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Center knot -->
+  <circle cx="16" cy="14" r="2.5" fill="#C3B4A2"/>
+  <!-- Left loop -->
+  <path d="M14 13 C9 9, 5 10, 6 15 C7 18, 12 17, 14 15" />
+  <!-- Right loop -->
+  <path d="M18 13 C23 9, 27 10, 26 15 C25 18, 20 17, 18 15" />
+  <!-- Flowing tails -->
+  <path d="M14.5 16 C13 20, 10 24, 8 26" />
+  <path d="M17.5 16 C19 20, 22 24, 24 26" />
+</svg>

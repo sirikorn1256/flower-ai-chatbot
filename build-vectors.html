@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>เครื่องมือสร้างไฟล์เวกเตอร์ (Vector Embeddings Generator) - PIM Flower Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2d6a4f;
+      --primary-light: #40916c;
+      --accent: #e76f51;
+      --bg: #f8f9fa;
+      --card: #ffffff;
+      --text: #212529;
+      --text-muted: #6c757d;
+      --border: #e9ecef;
+      --success: #38b000;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Prompt', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 30px 20px;
+    }
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      background: var(--card);
+      border-radius: 16px;
+      padding: 35px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+      border: 1px solid var(--border);
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .header h1 {
+      color: var(--primary);
+      font-size: 26px;
+      margin-bottom: 8px;
+    }
+    .header p {
+      color: var(--text-muted);
+      font-size: 15px;
+    }
+    .alert-box {
+      background: #e8f5e9;
+      border-left: 4px solid var(--primary);
+      padding: 14px 18px;
+      border-radius: 8px;
+      margin-bottom: 25px;
+      font-size: 14px;
+      color: #1b4332;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 8px;
+      color: #333;
+    }
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      font-size: 15px;
+      transition: border-color 0.2s;
+    }
+    input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+    .input-hint {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 5px;
+    }
+    .config-badge-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 25px;
+      background: #f1f3f5;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 13px;
+    }
+    .config-badge {
+      background: #fff;
+      padding: 4px 10px;
+      border-radius: 6px;
+      border: 1px solid #dee2e6;
+    }
+    .btn-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 25px;
+    }
+    .btn {
+      padding: 13px 24px;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      flex: 1;
+    }
+    .btn-primary:hover {
+      background: var(--primary-light);
+      transform: translateY(-1px);
+    }
+    .btn-secondary {
+      background: #495057;
+      color: white;
+    }
+    .btn-secondary:hover {
+      background: #343a40;
+    }
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+    .progress-wrapper {
+      display: none;
+      margin-bottom: 20px;
+    }
+    .progress-bar-bg {
+      height: 12px;
+      background: #e9ecef;
+      border-radius: 6px;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--primary);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .log-box {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 13px;
+      padding: 15px;
+      border-radius: 10px;
+      max-height: 240px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      margin-bottom: 20px;
+      display: none;
+    }
+    .download-section {
+      display: none;
+      text-align: center;
+      padding: 25px;
+      background: #f0fdf4;
+      border: 2px dashed #bbf7d0;
+      border-radius: 12px;
+      margin-top: 20px;
+    }
+    .download-section h3 {
+      color: #166534;
+      margin-bottom: 8px;
+    }
+    .next-steps {
+      margin-top: 30px;
+      background: #fff8e1;
+      border: 1px solid #ffe082;
+      padding: 18px 22px;
+      border-radius: 10px;
+      font-size: 14px;
+    }
+    .next-steps ol {
+      padding-left: 20px;
+      margin-top: 8px;
+    }
+    .next-steps li {
+      margin-bottom: 6px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <h1>🌸 เครื่องมือสร้างไฟล์ vectors.json</h1>
+    <p>สำหรับระบบค้นหาด้วยเวกเตอร์ (Vector Search) - PIM Flower Studio</p>
+  </div>
+
+  <div class="alert-box">
+    <strong>💡 ข้อมูลตามคู่มือวิชา AI (ตอนที่ 4 ขั้นที่ 7):</strong><br>
+    เครื่องมือนี้จะอ่านไฟล์เอกสารทั้งหมดจากโฟลเดอร์ <code>docs/</code> แบ่งเป็นชิ้นละ 500 ตัวอักษร (เหลื่อม 100 ตัวอักษร) แล้วส่งไปแปลงเป็นเวกเตอร์ 1,536 มิติผ่าน OpenRouter API<br>
+    <em>* กุญแจจะถูกใช้บนเบราว์เซอร์ของคุณครั้งเดียวเพื่อสร้างไฟล์ และไม่มีการส่งไปบันทึกที่อื่น</em>
+  </div>
+
+  <div class="config-badge-group" id="configSummary">
+    <div class="config-badge">กำลังโหลดการตั้งค่าจาก config.js...</div>
+  </div>
+
+  <div class="form-group">
+    <label for="apiKey">🔑 OpenRouter API Key (รหัสขึ้นต้นด้วย sk-or-...)</label>
+    <input type="password" id="apiKey" placeholder="sk-or-v1-xxxxxxxxxxxxxxxxxxxxxxxx" autocomplete="off">
+    <div class="input-hint">สามารถขอฟรีได้จาก openrouter.ai/keys</div>
+  </div>
+
+  <div class="form-group">
+    <label for="embedModel">โมเดลสร้างเวกเตอร์ (Embedding Model)</label>
+    <input type="text" id="embedModel" value="text-embedding-3-small">
+    <div class="input-hint">รุ่นแนะนำ: text-embedding-3-small หรือ text-embedding-ada-002</div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-primary" id="startBtn" onclick="startBuildVectors()">
+      🚀 เริ่มสร้างเวกเตอร์ (Build vectors.json)
+    </button>
+  </div>
+
+  <div class="progress-wrapper" id="progressWrapper">
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" id="progressBarFill"></div>
+    </div>
+    <div class="progress-label">
+      <span id="progressStatus">กำลังเตรียมข้อมูล...</span>
+      <span id="progressPercent">0%</span>
+    </div>
+  </div>
+
+  <div class="log-box" id="logBox"></div>
+
+  <div class="download-section" id="downloadSection">
+    <h3>🎉 สร้างเวกเตอร์สำเร็จเรียบร้อย!</h3>
+    <p style="font-size: 14px; color: #374151; margin-bottom: 15px;" id="resultStats"></p>
+    <button class="btn btn-primary" id="downloadBtn" onclick="downloadJSON()">
+      💾 ดาวน์โหลดไฟล์ vectors.json
+    </button>
+  </div>
+
+  <div class="next-steps">
+    <strong>📌 ขั้นตอนถัดไปหลังจากดาวน์โหลดไฟล์:</strong>
+    <ol>
+      <li>นำไฟล์ <code>vectors.json</code> ที่ได้ ไปอัปโหลดขึ้น GitHub Repository (วางไว้ชั้นนอกสุด โฟลเดอร์เดียวกับ index.html)</li>
+      <li>เปิดไฟล์ <code>config.js</code> แก้ไขบรรทัด <code>SEARCH_MODE: "local"</code> ให้เป็น <code>SEARCH_MODE: "vector"</code></li>
+      <li>Commit changes แล้วเปิดหน้าเว็บร้านดอกไม้ หัวกล่องแชทบอทจะเปลี่ยนเป็น <strong>"ค้นแบบเวกเตอร์"</strong> อัตโนมัติ!</li>
+    </ol>
+  </div>
+</div>
+
+<script src="config.js"></script>
+<script>
+  let generatedVectors = [];
+
+  // แสดงผล Config ที่อ่านได้
+  window.addEventListener('DOMContentLoaded', () => {
+    if (typeof CONFIG !== 'undefined') {
+      const summary = document.getElementById('configSummary');
+      summary.innerHTML = `
+        <div class="config-badge">📁 โฟลเดอร์: <strong>${CONFIG.DOCS_BASE || 'docs'}</strong></div>
+        <div class="config-badge">📄 เอกสาร: <strong>${(CONFIG.FILES || []).length} ไฟล์</strong></div>
+        <div class="config-badge">✂️ Chunk Size: <strong>${CONFIG.CHUNK_SIZE || 500} อักษร</strong></div>
+        <div class="config-badge">🔗 Overlap: <strong>${CONFIG.OVERLAP || 100} อักษร</strong></div>
+      `;
+      if (CONFIG.EMBED_MODEL) {
+        document.getElementById('embedModel').value = CONFIG.EMBED_MODEL;
+      }
+    }
+  });
+
+  function log(msg) {
+    const box = document.getElementById('logBox');
+    box.style.display = 'block';
+    box.textContent += `[${new Date().toLocaleTimeString()}] ${msg}\n`;
+    box.scrollTop = box.scrollHeight;
+  }
+
+  // ฟังก์ชันแบ่งข้อความเป็นก้อน (Chunking) ตามเงื่อนไข 500 อักษร เหลื่อม 100 อักษร
+  function chunkText(text, chunkSize, overlap) {
+    const chunks = [];
+    if (!text || text.length === 0) return chunks;
+    
+    let start = 0;
+    while (start < text.length) {
+      const end = Math.min(start + chunkSize, text.length);
+      const chunk = text.substring(start, end).trim();
+      if (chunk.length > 20) {
+        chunks.push(chunk);
+      }
+      if (end >= text.length) break;
+      start += (chunkSize - overlap);
+    }
+    return chunks;
+  }
+
+  async function startBuildVectors() {
+    const apiKey = document.getElementById('apiKey').value.trim();
+    const embedModel = document.getElementById('embedModel').value.trim() || 'text-embedding-3-small';
+    const startBtn = document.getElementById('startBtn');
+
+    if (!apiKey) {
+      alert('กรุณากรอก OpenRouter API Key ก่อนเริ่มสร้างเวกเตอร์ครับ');
+      return;
+    }
+
+    if (!CONFIG || !CONFIG.FILES || CONFIG.FILES.length === 0) {
+      alert('ไม่พบรายการไฟล์ใน CONFIG.FILES');
+      return;
+    }
+
+    startBtn.disabled = true;
+    document.getElementById('logBox').textContent = '';
+    document.getElementById('progressWrapper').style.display = 'block';
+    document.getElementById('downloadSection').style.display = 'none';
+    generatedVectors = [];
+
+    const chunkSize = CONFIG.CHUNK_SIZE || 500;
+    const overlap = CONFIG.OVERLAP || 100;
+    const docsBase = CONFIG.DOCS_BASE || 'docs';
+    const files = CONFIG.FILES;
+
+    log(`เริ่มเตรียมข้อมูลเอกสารทั้งหมด ${files.length} ไฟล์...`);
+
+    const allChunks = [];
+
+    // อ่านและ Chunk เอกสารทุกไฟล์
+    for (const filename of files) {
+      const path = `${docsBase}/${filename}`;
+      log(`กำลังโหลดเอกสาร: ${path}`);
+      try {
+        const res = await fetch(path);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const content = await res.text();
+        const chunks = chunkText(content, chunkSize, overlap);
+        log(`-> ไฟล์ ${filename} แบ่งได้ ${chunks.length} ชิ้นส่วน`);
+        
+        chunks.forEach((chunk, idx) => {
+          allChunks.push({
+            file: filename,
+            chunkIndex: idx + 1,
+            totalChunksInFile: chunks.length,
+            text: chunk
+          });
+        });
+      } catch (err) {
+        log(`⚠️ เกิดข้อผิดพลาดในการโหลด ${path}: ${err.message}`);
+      }
+    }
+
+    const totalChunks = allChunks.length;
+    log(`รวมชิ้นส่วนเอกสารทั้งหมด: ${totalChunks} ชิ้น`);
+
+    if (totalChunks === 0) {
+      alert('ไม่พบเนื้อหาในเอกสาร กรุณาตรวจสอบว่ามีไฟล์อยู่ในโฟลเดอร์ docs หรือไม่');
+      startBtn.disabled = false;
+      return;
+    }
+
+    // ส่งไปแปลงเป็นเวกเตอร์ทีละก้อน หรือเป็น Batch
+    log(`กำลังส่งข้อความไปแปลงเวกเตอร์ผ่าน OpenRouter (Model: ${embedModel})...`);
+
+    let completed = 0;
+    const batchSize = 4; // ยิงทีละ 4 ชิ้นเพื่อความรวดเร็วและไม่ชน rate limit
+
+    for (let i = 0; i < totalChunks; i += batchSize) {
+      const batch = allChunks.slice(i, i + batchSize);
+      const inputTexts = batch.map(b => b.text.replace(/\n+/g, ' '));
+
+      try {
+        const resp = await fetch('https://openrouter.ai/api/v1/embeddings', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${apiKey}`,
+            'HTTP-Referer': window.location.href,
+            'X-Title': 'PIM Flower Studio Build Vectors'
+          },
+          body: JSON.stringify({
+            model: embedModel,
+            input: inputTexts
+          })
+        });
+
+        if (!resp.ok) {
+          const errText = await resp.text();
+          throw new Error(`OpenRouter Error (${resp.status}): ${errText}`);
+        }
+
+        const data = await resp.json();
+        if (!data.data || !Array.isArray(data.data)) {
+          throw new Error('รูปแบบข้อมูล Embedding ตอบกลับไม่ถูกต้อง');
+        }
+
+        data.data.forEach((embObj, indexInBatch) => {
+          const originalItem = batch[indexInBatch];
+          generatedVectors.push({
+            file: originalItem.file,
+            chunkIndex: originalItem.chunkIndex,
+            text: originalItem.text,
+            vector: embObj.embedding
+          });
+        });
+
+        completed += batch.length;
+        const pct = Math.round((completed / totalChunks) * 100);
+        document.getElementById('progressBarFill').style.width = `${pct}%`;
+        document.getElementById('progressPercent').textContent = `${pct}%`;
+        document.getElementById('progressStatus').textContent = `แปลงเวกเตอร์แล้ว ${completed}/${totalChunks} ชิ้น`;
+        log(`✓ สำเร็จแล้ว ${completed}/${totalChunks} ชิ้น`);
+
+        // พักสั้นๆ ป้องกัน Rate Limit
+        await new Promise(r => setTimeout(r, 200));
+      } catch (err) {
+        log(`❌ ล้มเหลวที่ชิ้นที่ ${i + 1}: ${err.message}`);
+        alert(`เกิดข้อผิดพลาดในการเรียก OpenRouter: ${err.message}`);
+        startBtn.disabled = false;
+        return;
+      }
+    }
+
+    log(`🎉 เสร็จสิ้นการแปลงเวกเตอร์ทั้งหมด ${generatedVectors.length} ชิ้นเรียบร้อย!`);
+    document.getElementById('resultStats').textContent = 
+      `ประมวลผลเสร็จสิ้น: ${files.length} ไฟล์ | รวม ${generatedVectors.length} เวกเตอร์ (มิติเวกเตอร์: ${generatedVectors[0]?.vector?.length || 0})`;
+    document.getElementById('downloadSection').style.display = 'block';
+    startBtn.disabled = false;
+  }
+
+  function downloadJSON() {
+    if (!generatedVectors || generatedVectors.length === 0) return;
+    const jsonStr = JSON.stringify(generatedVectors, null, 2);
+    const blob = new Blob([jsonStr], { type: 'application/json;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'vectors.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+</script>
+
+</body>
+</html>

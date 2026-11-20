@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <defs>
+    <style>
+      .bloomie-circle { fill: #FFFFFF; stroke: #E4DCD3; stroke-width: 1.5; }
+      .bloomie-line { fill: none; stroke: #3A352F; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+      .bloomie-text { font-family: 'Cormorant Garamond', 'Georgia', serif; font-size: 11px; fill: #3A352F; text-anchor: middle; font-weight: 600; letter-spacing: 0.5px; }
+    </style>
+  </defs>
+  <circle cx="60" cy="60" r="56" class="bloomie-circle" />
+  
+  <!-- Rose Blossom Line-Art -->
+  <g transform="translate(0, -6)">
+    <!-- Central Rose Swirl -->
+    <path class="bloomie-line" d="M60 38 c-2 -3 -6 -4 -9 -2 c-4 3 -4 8 -1 11 c3 3 7 3 10 1 c3 -2 4 -5 3 -8 z" />
+    <path class="bloomie-line" d="M54 36 c3 -4 9 -4 13 -1 c4 4 4 9 0 13 c-3 3 -7 3 -10 1" />
+    <path class="bloomie-line" d="M48 44 c-2 5 0 11 5 14 c5 3 11 2 15 -2 c3 -4 3 -8 1 -12" />
+    <path class="bloomie-line" d="M67 43 c4 4 5 10 2 15 c-3 4 -8 6 -13 5 c-5 -1 -9 -5 -10 -9" />
+    <path class="bloomie-line" d="M45 50 c-4 5 -3 12 2 16 c5 4 13 4 18 -1 c4 -4 4 -9 2 -14" />
+    <path class="bloomie-line" d="M72 52 c4 6 3 13 -2 17 c-5 4 -13 4 -18 0" />
+
+    <!-- Stem & Calyx -->
+    <path class="bloomie-line" d="M59 70 c-1 8 -1 16 0 24" />
+    <path class="bloomie-line" d="M57 71 c-3 2 -6 1 -8 -1 c0 4 3 6 6 5" />
+    <path class="bloomie-line" d="M61 71 c3 2 6 1 8 -1 c0 4 -3 6 -6 5" />
+
+    <!-- Leaves -->
+    <path class="bloomie-line" d="M59 78 c-6 -3 -12 -1 -15 3 c4 3 10 2 14 -1" />
+    <path class="bloomie-line" d="M59 84 c6 -3 12 -1 15 3 c-4 3 -10 2 -14 -1" />
+  </g>
+
+  <!-- Typography -->
+  <text x="60" y="106" class="bloomie-text">Bloomie Florist</text>
+</svg>
